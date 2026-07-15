@@ -1,0 +1,29 @@
+const express = require('express');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Blockchain Credential System Running' });
+});
+
+// Mock verify endpoint (demo)
+app.post('/api/verify', (req, res) => {
+  const { studentId, cid } = req.body;
+  // Simulate blockchain verification
+  res.json({
+    valid: true,
+    revoked: false,
+    name: 'John Doe',
+    degree: 'BSc Computer Science',
+    institution: 'Mount Kenya University',
+    issuanceDate: new Date().toISOString()
+  });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
